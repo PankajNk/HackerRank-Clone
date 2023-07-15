@@ -15,10 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from code_checker_app.views import home_view
+from django.urls import include, path
+from rest_framework import routers
+from code_checker_app.views import QuestionViewSet
+from django.views.generic import TemplateView
+
+router = routers.DefaultRouter()
+router.register(r'questions', QuestionViewSet)
 
 urlpatterns = [
-    
-    path('',home_view, name ='home'),
+    path('api/', include(router.urls)),
+    path ('api/<str:unknown_path>',TemplateView.as_view(template_name ='rest_framework/api.html')),
 ]
